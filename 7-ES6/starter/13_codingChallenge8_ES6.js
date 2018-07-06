@@ -33,20 +33,20 @@ class Park extends TownElements {
     this.area = area
     this.trees = trees
   }
-  treeDensity() { return this.trees / this.area }
+  treeDensity() { return (this.trees / this.area).toFixed(2) }
   parkAge() { return new Date().getFullYear() - this.buildYear }
 }
 class Street extends TownElements {
-  constructor(name, buildYear, length, size = 'Normal') {
+  constructor(name, buildYear, length, size = 'normal') {
     super(name, buildYear)
     this.length = length
     this.size = size
   }
 }
 
-const street1 = new Street('Lomas Valentinas', 1953, 750, 'Tiny')
-const street2 = new Street('Alameda São Caetano', 1934, 3000, 'Small')
-const street3 = new Street('Goiás', 1928, 11000, 'Big')
+const street1 = new Street('Lomas Valentinas', 1953, 750, 'tiny')
+const street2 = new Street('Alameda São Caetano', 1934, 3000, 'small')
+const street3 = new Street('Goiás', 1928, 11000, 'big')
 const street4 = new Street('Av. Pres. Kennedy', 1964, 5000)
 
 const park1 = new Park('National Park', 1975, 1150, 890)
@@ -54,26 +54,45 @@ const park2 = new Park('Central Park', 1928, 890, 13500)
 const park3 = new Park('Golden Gate Park', 1870, 1583, 22700)
 
 const myParks = [park1, park2, park3]
+const myStreets = [street1, street2, street3, street4]
 
 const treeDensity4All = ()=>{
   myParks.forEach((park)=>{
-    console.log(` Tree density of ${park.name} = ${park.treeDensity()} `)
+    console.log(`Tree density of ${park.name} = ${park.treeDensity()} `)
   })
 }
 const ageAverage = myParks.reduce((acc, park) => {
   return acc + park.parkAge()
 },0)
 
+const streetsFunctions = ((streetsArr) => {
+  return {
+    calculateTotalLength : () => {
+      const total = streetsArr.reduce((acc, street) => {return acc + street.length}, 0)
+      return total
+    },
+    calculateStreetsLengthAverage : () => {
+      return streetsFunctions.calculateTotalLength() / streetsArr.length
+    },
+    allStreetsClassification : () => {
+      streetsArr.forEach((street) => {
+        console.log(`${street.name}, build in ${street.buildYear}, is a ${street.size} street`)
+      })
+    }
+  }
+})(myStreets)
 
 
-
-console.log('======== Report ========')
+console.log('\n======== Parks Report ========\n')
 treeDensity4All()
-console.log('========================')
-console.log(` The average age of the parks is ${ageAverage / myParks.length}`)
-console.log('========================')
+console.log(`The average age of the parks is ${(ageAverage / myParks.length).toFixed(2)} years`)
 myParks.filter( (park) => {
   if(park.trees > 1000){
-    console.log(`${park.name} has more than 1000 trees`)
+    console.log(`${park.name} has more than 1000 trees => Total = ${park.trees}`)
   }
 })
+console.log('\n======== Streets Report ========\n')
+
+console.log(`Our ${myStreets.length} streets have a total length of ${streetsFunctions.calculateTotalLength()}km, with an average of ${streetsFunctions.calculateStreetsLengthAverage()}km`)
+streetsFunctions.allStreetsClassification()
+  
