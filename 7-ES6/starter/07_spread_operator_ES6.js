@@ -27,6 +27,6 @@ console.log('Big Family =', bigFamily)
 // Ex3 DOM manipulation
 const h = document.querySelector('h1')
 const boxes2 = document.querySelectorAll('.box')
-const all = [h, ...boxes]
+const all = [h, ...boxes2]
 console.log(all)
 Array.from(all).forEach(cur => cur.style.color = 'purple')
